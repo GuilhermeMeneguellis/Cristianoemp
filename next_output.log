@@ -1,9 +1,0 @@
-
-> app-temp@0.1.0 start
-> next start
-
-▲ Next.js 16.2.1
-- Local:         http://localhost:3000
-- Network:       http://192.168.0.2:3000
-✓ Ready in 199ms
-⨯ upstream image response failed for https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80&w=2070 404
