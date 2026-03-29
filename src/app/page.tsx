@@ -15,10 +15,10 @@ import {
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
-/*  Hydration-safe check: false on server, true on client              */
+/*  Client-side check: false on server, true on client                 */
 /* ------------------------------------------------------------------ */
 const emptySubscribe = () => () => {};
-function useHydrated() {
+function useIsClient() {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -32,11 +32,11 @@ function useHydrated() {
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const isMounted = useHydrated();
+  const isClient = useIsClient();
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || !isMounted) return;
+    if (!el || !isClient) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -50,9 +50,9 @@ function useReveal() {
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [isMounted]);
+  }, [isClient]);
 
-  return { ref, isVisible, isMounted };
+  return { ref, isVisible, isClient };
 }
 
 /* ---------- tiny RevealSection wrapper ---------- */
@@ -67,11 +67,11 @@ function RevealSection({
   direction?: "up" | "left" | "right";
   delay?: number;
 }) {
-  const { ref, isVisible, isMounted } = useReveal();
+  const { ref, isVisible, isClient } = useReveal();
 
   // Before JS hydration: no animation classes (content visible)
   // After hydration: apply hidden class, then visible when intersecting
-  const dirClass = !isMounted
+  const dirClass = !isClient
     ? ""
     : direction === "left"
       ? "reveal-left-hidden"
@@ -85,7 +85,7 @@ function RevealSection({
     <div
       ref={ref}
       className={`${dirClass} ${visibleClass} ${className}`}
-      style={isMounted ? { transitionDelay: `${delay}ms` } : undefined}
+      style={isClient ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
     </div>
@@ -260,7 +260,7 @@ export default function Home() {
 
           <div className="container mx-auto px-4 sm:px-6 relative z-20">
             <div className="max-w-2xl text-white">
-              <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 animate-hero-text">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 animate-hero-text">
                 Construindo sonhos com{" "}
                 <span className="text-amber-500">qualidade</span> e{" "}
                 <span className="text-amber-500">segurança</span>
@@ -270,7 +270,7 @@ export default function Home() {
                 acabamento, entregamos excelência em cada detalhe do seu
                 projeto.
               </p>
-              <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 animate-hero-text delay-400">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-hero-text delay-400">
                 <a
                   href="#orcamento"
                   className="bg-amber-500 text-zinc-900 px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-center hover:bg-amber-400 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 animate-pulse-glow"
