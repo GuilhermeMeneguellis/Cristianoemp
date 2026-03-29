@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fdfdfd;
+  --foreground: #1c1c1c;
+  --primary: #f59e0b; /* Amber 500 for construction yellow/orange */
+  --primary-dark: #d97706; /* Amber 600 */
+  --secondary: #3f3f46; /* Zinc 700 for dark gray */
+  --secondary-light: #52525b; /* Zinc 600 */
+  --accent: #ea580c; /* Orange 600 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary: var(--secondary);
+  --color-secondary-light: var(--secondary-light);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #18181b; /* Zinc 900 */
+    --foreground: #f4f4f5; /* Zinc 100 */
+    --primary: #fbbf24; /* Amber 400 */
+    --primary-dark: #f59e0b; /* Amber 500 */
+    --secondary: #27272a; /* Zinc 800 */
+    --secondary-light: #3f3f46; /* Zinc 700 */
+    --accent: #f97316; /* Orange 500 */
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
